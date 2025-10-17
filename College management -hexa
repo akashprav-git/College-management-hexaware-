@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HEXAWARE CMIS - User Login</title>
+    
+    <style>
+        /* General Resets and Base Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f4f7;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Header Styling */
+        header {
+            background-color: #007bff; /* HEXAWARE Blue */
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 { margin-bottom: 5px; font-size: 2em; }
+        header h2 { margin-top: 0; font-size: 1em; color: #c3e6ff; }
+
+        /* Layout and Form Container */
+        .container {
+            max-width: 380px;
+            margin: 50px auto;
+        }
+
+        .auth-section {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .auth-section h2 {
+            text-align: center;
+            color: #007bff;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        /* Input Fields */
+        input[type="email"], 
+        input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        /* Button Styling */
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            border: none;
+            border-radius: 4px;
+            font-size: 1em;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .btn.primary {
+            background-color: #28a745; /* Success Green */
+            color: white;
+        }
+
+        /* Links and Messages */
+        .register-link {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 0.9em;
+        }
+
+        .register-link a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .message {
+            text-align: center;
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .message.error {
+            background-color: #f8d7da; /* Light Red */
+            color: #721c24; /* Dark Red */
+            border: 1px solid #f5c6cb;
+        }
+
+        .message.success {
+            background-color: #d4edda; /* Light Green */
+            color: #155724; /* Dark Green */
+            border: 1px solid #c3e6cb;
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            color: #777;
+            font-size: 0.8em;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>College Management System (CMIS)</h1>
+        <h2>HEXAWARE</h2>
+    </header>
+
+    <div class="container">
+        <section class="auth-section" id="login-section">
+            <h2>User Login</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">Email Address:</label>
+                    <input type="email" id="loginEmail" placeholder="Enter Email" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password:</label>
+                    <input type="password" id="loginPassword" placeholder="Enter Password" required>
+                </div>
+                <p id="loginMessage" class="message"></p>
+                
+                <button type="submit" class="btn primary">Login</button>
+            </form>
+
+            <div class="register-link">
+                <p>New User? <a href="registration.html">Create Account</a></p>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 HEXAWARE CMIS Project</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginForm = document.getElementById('loginForm');
+            const loginMessage = document.getElementById('loginMessage');
+
+            if (loginForm) {
+                loginForm.addEventListener('submit', handleLogin);
+            }
+
+            /**
+             * Handles login submission, simulating required API call and JWT handling.
+             */
+            async function handleLogin(event) {
+                event.preventDefault(); 
+
+                const email = document.getElementById('loginEmail').value.trim();
+                const password = document.getElementById('loginPassword').value.trim();
+
+                // 1. Client-Side Validation
+                if (!email || !password) {
+                    displayMessage('Email and Password are required fields.', 'error');
+                    return;
+                }
+
+                displayMessage('Attempting authentication...', 'success');
+
+                // 2. SIMULATION of REST API Call (Backend: SpringBoot/ASP.NET Core WebAPI with JSON)
+                
+                // Successful Login Simulation
+                if (email === 'admin@cmis.com' && password === 'Pass@123') {
+                    // In real app: Store received JWT token
+                    // localStorage.setItem('authToken', 'simulated-jwt-token'); 
+                    
+                    displayMessage('Login successful! Redirecting to Dashboard...', 'success');
+                    setTimeout(() => { 
+                        // window.location.href = 'dashboard.html'; // Actual redirection
+                        alert('Redirecting to dashboard. Token secured!');
+                    }, 1000); 
+
+                } 
+                // Specific error message handling requirement
+                else if (email === 'registered@user.com') {
+                    displayMessage('User is already registered. Please login to the application.', 'error');
+
+                } 
+                // Generic Authentication Failure
+                else {
+                    // API error should be logged (Console.error) and user-readable (UI message)
+                    console.error('Login attempt failed for:', email);
+                    displayMessage('Invalid Email or Password. Access denied.', 'error');
+                }
+            }
+
+            /**
+             * Displays user-readable messages.
+             */
+            function displayMessage(msg, type) {
+                loginMessage.textContent = msg;
+                loginMessage.className = `message ${type}`;
+                
+                // Clear error messages after 7 seconds for a clean UI
+                if (type === 'error') {
+                    setTimeout(() => {
+                        loginMessage.textContent = '';
+                        loginMessage.className = 'message';
+                    }, 7000);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
